@@ -277,6 +277,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "maxSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "maxSupplyPerWallet",
 				"outputs": [
 					{
@@ -534,6 +547,13 @@
 			{
 				"inputs": [],
 				"name": "startPreSale",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "startPublicSale",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -850,11 +870,11 @@
 			]
 		},
 		"contracts/Selfie.sol": {
-			"keccak256": "0x2af5b9be7bc7fabd8385d3a58ac724ba69bc6dd85a72456b88a6ef0f334f0959",
+			"keccak256": "0x1a9a7d055a48e37b3f639341d6c5e843acb65b80afc353898aabe77fc598bde6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7a57725d699faa9fada87c52713962aca3cc16be153d100d8f6e811280e72f9f",
-				"dweb:/ipfs/QmRf5zGTAro377e7ws4LBRBnyZ8i32nrpRG4KLgS3jHkwm"
+				"bzz-raw://f636906ce66f05a7f985e63caeb6d9cb762b610c6b80cdfc28c782179ea790c4",
+				"dweb:/ipfs/QmRLZZhnag1GBniVSVcZnHM12uMRkifE7oHaeVh3M1R36B"
 			]
 		}
 	},

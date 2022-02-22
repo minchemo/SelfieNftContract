@@ -20,9 +20,13 @@ contract Selfie is Ownable, ERC721A {
     uint256 public preSaleMaxMint = 1;
     uint256 public preSalePrice = 0.065 ether;
 
-    uint256 public maxSupplyPerWallet = 3;
+    uint256 public maxMintPerWallet = 3;
 
     bool public paused = false;
+
+    uint256 public maxSupply = 2222;
+
+    uint256 public amountForDevs = 100;
 
     mapping(address => bool) public whitelistPurchased;
 
@@ -38,7 +42,17 @@ contract Selfie is Ownable, ERC721A {
     require( !whitelistPurchased[msg.sender], "Reached the maximum amount of whitelisted wallet." );
     require(
         quantity * publicSalePrice <= msg.value,
-        "Not enough ether sent"
+        "Not enough ether sent."
+    );
+
+    require(
+      totalSupply() + quantity <= maxSupply,
+      "Sale would exceed max supply."
+    );
+
+    require(
+      numberMinted(msg.sender) + quantity <= preSaleMaxMint,
+      "You mint too many."
     );
 
     _safeMint(msg.sender, quantity);
@@ -61,4 +75,41 @@ contract Selfie is Ownable, ERC721A {
   function setRootHash(bytes32 _hash) public onlyOwner {
     rootHash = _hash;
   }
+
+  function numberMinted(address owner) public view returns (uint256) {
+    return _numberMinted(owner);
+  }
+
+  // For marketing etc.
+  function devMint(uint256 quantity) external onlyOwner {
+    require(
+      totalSupply() + quantity <= amountForDevs,
+      "too many already minted before dev mint"
+    );
+    require(
+      quantity % maxBatchSize == 0,
+      "can only mint a multiple of the maxBatchSize"
+    );
+    uint256 numChunks = quantity / maxBatchSize;
+    for (uint256 i = 0; i < numChunks; i++) {
+      _safeMint(msg.sender, maxBatchSize);
+    }
+  }
+
+  // // metadata URI
+  string private _baseTokenURI;
+
+  function _baseURI() internal view virtual override returns (string memory) {
+    return _baseTokenURI;
+  }
+
+  function setBaseURI(string calldata baseURI) external onlyOwner {
+    _baseTokenURI = baseURI;
+  }
+
+  function withdraw() external onlyOwner nonReentrant {
+    (bool success, ) = msg.sender.call{value: address(this).balance}("");
+    require(success, "Transfer failed.");
+  }
+
 }
